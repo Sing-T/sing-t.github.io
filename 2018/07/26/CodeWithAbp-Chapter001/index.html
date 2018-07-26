@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>abp学习 - 001 | Planeswalker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <meta name="keywords" content="ABP" />
+  
+  
+  
+  
+  <meta name="description" content="ASP.NET Boilerplate（ABP）是一个开源且文档齐全的应用程序框架。 它不仅仅是一个框架，它还提供了一个基于领域驱动设计的强大架构模型，并考虑了所有最佳实践。最新的ABP支持ASP.NET Core和EF Core，但也支持ASP.NET MVC 5.x和EF 6.x  ABP官方文档结构ABP文档 总览    介绍 教程&amp;amp;文章 N层架构 模块系统 启动配置 多租户 OW">
+<meta name="keywords" content="ABP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ABP学习 - 001">
+<meta property="og:url" content="http://sing-t.github.io/2018/07/26/CodeWithAbp-Chapter001/index.html">
+<meta property="og:site_name" content="Planeswalker">
+<meta property="og:description" content="ASP.NET Boilerplate（ABP）是一个开源且文档齐全的应用程序框架。 它不仅仅是一个框架，它还提供了一个基于领域驱动设计的强大架构模型，并考虑了所有最佳实践。最新的ABP支持ASP.NET Core和EF Core，但也支持ASP.NET MVC 5.x和EF 6.x  ABP官方文档结构ABP文档 总览    介绍 教程&amp;amp;文章 N层架构 模块系统 启动配置 多租户 OW">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ofpclh96a.bkt.clouddn.com/blog/img/article/WebSecurity/Lion.png">
+<meta property="og:updated_time" content="2018-07-26T15:34:03.430Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ABP学习 - 001">
+<meta name="twitter:description" content="ASP.NET Boilerplate（ABP）是一个开源且文档齐全的应用程序框架。 它不仅仅是一个框架，它还提供了一个基于领域驱动设计的强大架构模型，并考虑了所有最佳实践。最新的ABP支持ASP.NET Core和EF Core，但也支持ASP.NET MVC 5.x和EF 6.x  ABP官方文档结构ABP文档 总览    介绍 教程&amp;amp;文章 N层架构 模块系统 启动配置 多租户 OW">
+<meta name="twitter:image" content="http://ofpclh96a.bkt.clouddn.com/blog/img/article/WebSecurity/Lion.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Planeswalker" type="application/atom+xml">
+  
+
+  
+
+  <link rel="icon" href="/css/images/owl.jpg">
+  <link rel="apple-touch-icon" href="/css/images/owl.jpg">
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Montserrat:700" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic" rel="stylesheet" type="text/css">
+  <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <style type="text/css">
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/9749f0/00000000000000000001008f/27/l?subset_id=2&fvd=n5) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/90cf9f/000000000000000000010091/27/l?subset_id=2&fvd=n7) format("woff2");font-weight:500;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/8a5494/000000000000000000013365/27/l?subset_id=2&fvd=n4) format("woff2");font-weight:lighter;font-style:normal;}
+    @font-face{font-family:futura-pt;src:url(https://use.typekit.net/af/d337d8/000000000000000000010095/27/l?subset_id=2&fvd=i4) format("woff2");font-weight:400;font-style:italic;}</style>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="/js/jquery-3.1.1.min.js"></script>
+  <script src="/js/bootstrap.js"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.css" >
+
+  
+    <link rel="stylesheet" href="/css/dialog.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/css/header-post.css" >
+  
+
+  
+  
+  
+
+</head>
+
+
+
+  <body data-spy="scroll" data-target="#toc" data-offset="50">
+
+
+  
+  <div id="container">
+    <div id="wrap">
+      
+        <header>
+
+    <div id="allheader" class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar-inner">
+          
+          <div class="container"> 
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            
+              <a class="brand" style="
+                 margin-top: 0px;"  
+                href="#" data-toggle="modal" data-target="#myModal" >
+                  <img width="124px" height="124px" alt="Hike News" src="/css/images/owl.jpg">
+              </a>
+            
+            
+            <div class="navbar-collapse collapse">
+              <ul class="hnav navbar-nav">
+                
+                  <li> <a class="main-nav-link" href="/">首页</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/archives">归档</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/categories">分类</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/tags">标签</a> </li>
+                
+                  <li> <a class="main-nav-link" href="/about">关于</a> </li>
+                
+                  <li><div id="search-form-wrap">
+
+    <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="index.search"><button type="submit" class="search-form-submit"> </button><input type="hidden" name="sitesearch" value="http://sing-t.github.io"></form>
+
+</div></li>
+            </div>
+          </div>
+                
+      </div>
+    </div>
+
+</header>
+
+
+
+      
+            
+      <div id="content" class="outer">
+        
+          <section id="main" style="float:none;"><article id="post-CodeWithAbp-Chapter001" style="width: 75%; float:left;" class="article article-type-post" itemscope itemprop="blogPost" >
+  <div id="articleInner" class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="http://ofpclh96a.bkt.clouddn.com/blog/img/article/WebSecurity/Lion.png" rel="gallery_cjk2pxm9q0000xa6axnnhtwq4">
+        <img src="http://ofpclh96a.bkt.clouddn.com/blog/img/article/WebSecurity/Lion.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="thumb" class="article-title" itemprop="name">
+      ABP学习 - 001
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      
+	<a href="/2018/07/26/CodeWithAbp-Chapter001/" class="article-date">
+	  <time datetime="2018-07-26T08:17:23.000Z" itemprop="datePublished">2018-07-26</time>
+	</a>
+
+      
+    <a class="article-category-link" href="/categories/后台开发/">后台开发</a>
+
+      
+	<a class="article-views">
+	<span id="busuanzi_container_page_pv">
+		阅读量<span id="busuanzi_value_page_pv"></span>
+	</span>
+	</a>
+
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote> <p>ASP.NET Boilerplate（ABP）是一个开源且文档齐全的应用程序框架。 它不仅仅是一个框架，它还提供了一个基于领域驱动设计的强大架构模型，并考虑了所有最佳实践。最新的ABP支持ASP.NET Core和EF Core，但也支持ASP.NET MVC 5.x和EF 6.x</p><p></p></blockquote>
+
+<h1 id="ABP官方文档结构"><a href="#ABP官方文档结构" class="headerlink" title="ABP官方文档结构"></a>ABP官方文档结构</h1><h2 id="ABP文档"><a href="#ABP文档" class="headerlink" title="ABP文档"></a>ABP文档</h2><ul>
+<li>总览   <ol>
+<li>介绍</li>
+<li>教程&amp;文章</li>
+<li>N层架构</li>
+<li>模块系统</li>
+<li>启动配置</li>
+<li>多租户</li>
+<li>OWIN集成</li>
+<li>Debugging</li>
+<li>API参考</li>
+</ol>
+</li>
+<li>通用结构<ol>
+<li>依赖注入</li>
+<li>Session</li>
+<li>缓存</li>
+<li>Logging</li>
+<li>设置管理</li>
+<li>时间</li>
+<li>对象映射（AutoMapper集成）</li>
+<li>邮件发送（MailKit集成）</li>
+</ol>
+</li>
+<li>领域层<ol>
+<li>实体</li>
+<li>多语言实体（新增）</li>
+<li>值对象</li>
+<li>仓储</li>
+<li>领域服务</li>
+<li>规范（规范模式）</li>
+<li>工作单元</li>
+<li>领域事件（事件总线）</li>
+<li>数据过滤</li>
+</ol>
+</li>
+<li>应用层<ol>
+<li>应用服务</li>
+<li>数据传输对象（DTO）</li>
+<li>验证DTO</li>
+<li>授权</li>
+<li>功能管理</li>
+<li>审计日志</li>
+<li>实体历史（新增）</li>
+</ol>
+</li>
+<li>分布式服务层<ol>
+<li>WebAPI控制器</li>
+<li>动态API</li>
+<li>OData集成</li>
+<li>SwaggerUI集成</li>
+</ol>
+</li>
+<li>展现层<ul>
+<li>ASP.NET MVC<ol>
+<li>MVC控制器</li>
+<li>MVC视图</li>
+<li>异常处理</li>
+</ol>
+</li>
+<li>ASP.NET Core<ol>
+<li>ASP.NET Core集成</li>
+<li>ASP.NET Core OData集成（新增）</li>
+<li>本地化</li>
+<li>导航</li>
+<li>内嵌资源</li>
+<li>JavaScript API</li>
+<li>CSRF/XSRF</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>后台服务<ol>
+<li>Background Jobs and Workers</li>
+<li>Hangfire集成</li>
+<li>Quartz集成</li>
+</ol>
+</li>
+<li>实时服务<ol>
+<li>通知系统</li>
+<li>SignalR集成</li>
+<li>SignalR ASP.NET Core集成（新增）</li>
+</ol>
+</li>
+<li>ORM<ol>
+<li>EF集成</li>
+<li>EF Core集成</li>
+<li>Hibernate集成</li>
+<li>Dapper集成</li>
+</ol>
+</li>
+</ul>
+<p>以上为ABP部分的相关文档，ABP还附带了一个Zero模块</p>
+<blockquote>
+<p>ASP.NET Boilerplate框架旨在独立于任何数据库模式，并尽可能通用。 因此，它留下了一些抽象和可选的概念，如审计日志记录，会话管理和授权，它们需要某种数据存储。<br>Module Zero实现了ASP.NET Boilerplate框架的所有基本概念，集成了Microsoft ASP.NET Identity，例如租户管理（多租户），角色管理，用户管理，会话，授权（权限管理），设置管理，语言管理，审计日志记录等。</p>
+</blockquote>
+<h2 id="Module-Zero文档"><a href="#Module-Zero文档" class="headerlink" title="Module Zero文档"></a>Module Zero文档</h2><ul>
+<li>Module Zero<ol>
+<li>介绍</li>
+</ol>
+</li>
+<li>启动模板<ol>
+<li>ASP.NET Core &amp; Angular</li>
+<li>ASP.NET Core MVC &amp; jQuery</li>
+<li>ASP.NET MVC 5.x / AngularJS 1.x</li>
+</ol>
+</li>
+<li>功能<ol>
+<li>租户管理</li>
+<li>版本管理</li>
+<li>用户管理</li>
+<li>角色管理</li>
+<li>组织管理</li>
+<li>权限管理</li>
+<li>语言管理</li>
+<li>Identity Server集成</li>
+</ol>
+</li>
+</ul>
+<h1 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h1><p><img src="http://ofpclh96a.bkt.clouddn.com/blog/img/article/abp/abp-concerns.png" alt="样例"></p>
+<h1 id="多层架构"><a href="#多层架构" class="headerlink" title="多层架构"></a>多层架构</h1><p><img src="http://ofpclh96a.bkt.clouddn.com/blog/img/article/abp/abp-nlayer-architecture.png" alt="多层架构"></p>
+<h1 id="ABP项目生启动模板"><a href="#ABP项目生启动模板" class="headerlink" title="ABP项目生启动模板"></a>ABP项目生启动模板</h1><p><a href="https://aspnetboilerplate.com/Templates" target="_blank" rel="noopener">https://aspnetboilerplate.com/Templates</a></p>
+<h1 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h1><p><img src="http://ofpclh96a.bkt.clouddn.com/blog/img/article/abp/solution.PNG" alt="项目结构"></p>
+<h1 id="单个实体CURD"><a href="#单个实体CURD" class="headerlink" title="单个实体CURD"></a>单个实体CURD</h1><p>现有单个实体<code>企业</code>，完成一个企业的<code>CURD</code>操作</p>
+<h2 id="实体基类-接口"><a href="#实体基类-接口" class="headerlink" title="实体基类 接口"></a>实体基类 接口</h2><blockquote>
+<p>领域实体都定义在Abp.Domain.Entities下</p>
+</blockquote>
+<blockquote>
+<p>带审计功能的实体定义在Abp.Domain.Entities.Auditing下</p>
+</blockquote>
+<h3 id="常用基类-接口"><a href="#常用基类-接口" class="headerlink" title="常用基类 接口"></a>常用基类 接口</h3><p>实体<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Entity&lt;TPrimaryKey&gt;</span><br><span class="line">CreationAuditedEntity&lt;TPrimaryKey&gt;</span><br><span class="line">AuditedEntity&lt;TPrimaryKey&gt;</span><br><span class="line">FullAuditedEntity&lt;TPrimaryKey&gt;</span><br></pre></td></tr></table></figure></p>
+<p>接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">IPassivable</span><br><span class="line">ISoftDelete</span><br><span class="line">IMayHaveTenant</span><br><span class="line">IMustHaveTenant</span><br><span class="line"></span><br><span class="line">//审计</span><br><span class="line">IHasCreationTime</span><br><span class="line">ICreationAudited</span><br><span class="line">IHasModificationTime</span><br><span class="line">IModificationAudited</span><br><span class="line">IAudited</span><br><span class="line"></span><br><span class="line">IHasDeletionTime</span><br><span class="line">IDeletionAudited</span><br><span class="line">IFullAudited</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Table(<span class="meta-string">"Company"</span>)</span>]</span><br><span class="line">public class Company: AuditedEntity&lt;Guid&gt;, IPassivable, ISoftDelete</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">MaxLength(32)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">MaxLength(32)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">string</span> Phone &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">MaxLength(128)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">string</span> Address &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">int</span> Order &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">bool</span> IsActive &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">bool</span> IsDeleted &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="生成数据库表"><a href="#生成数据库表" class="headerlink" title="生成数据库表"></a>生成数据库表</h2><p>在EF下的DbContext中添加<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">virtual</span> IDbSet&lt;Company&gt; Companies &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>配置好数据库链接，打开<code>Tools-&gt;NuGet Package Manager-&gt;Package Manager Console</code>，输入<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">PM&gt;</span> Add-Migration InitialCreate</span><br><span class="line"></span><br><span class="line"><span class="meta">PM&gt;</span> Update-Database</span><br></pre></td></tr></table></figure></p>
+<h1 id="服务层方法"><a href="#服务层方法" class="headerlink" title="服务层方法"></a>服务层方法</h1><h2 id="定义数据传输实体"><a href="#定义数据传输实体" class="headerlink" title="定义数据传输实体"></a>定义数据传输实体</h2><p>域层的抽象</p>
+<blockquote>
+<p>DTO提供了一种从展现层抽象域对象的有效方法。实际上，层与层之间是隔离的。如果要完全更改展现层，可以继续使用现有的应用程序和领域层。或者，只要您的应用程序服务的契约（方法签名和DTO）保持不变，您可以重新编写领域层，完全更改数据库架构，实体和ORM框架，而无需更改展现层。</p>
+</blockquote>
+<p>数据隐藏</p>
+<blockquote>
+<p>假设您有一个具有Id，Name，EmailAddress和Password属性的User实体。如果UserAppService的GetAllUsers方法返回List<user>，则任何人都可以看到所有用户的密码。它不是涉及安全的，而是关于数据隐藏的。应用程序服务应该返回展现层所需的内容。不多也不少。</user></p>
+</blockquote>
+<p>序列化和延迟加载问题</p>
+<blockquote>
+<p>将数据（对象）返回到展现层时，它很可能是序列化的。例如，在返回JSON的MVC方法中，您的对象可以序列化为JSON并发送到客户端。在这方面，将实体返回到表示层可能是有问题的。为什么呢？</p>
+</blockquote>
+<blockquote>
+<p>在实际应用程序中，您的实体将相互引用。用户实体可以引用它的角色。如果要序列化用户，则其角色也会序列化。 Role类可以有List<permission>，Permission类可以引用PermissionGroup类等等……想象一下所有这些对象是一次序列化的。您可以轻松地，不小心地序列化整个数据库！此外，如果您的对象具有循环引用，则无法序列化它们。</permission></p>
+</blockquote>
+<blockquote>
+<p>解决方案是什么？将属性标记为NonSerialized？不，你不知道什么时候应该序列化，什么时候不应该序列化。在一种应用服务方法中可能需要它，而在其他应用服务方法中则不需要。在这种情况下，返回一个安全的，可序列化和专门设计的DTO是一个不错的选择。</p>
+</blockquote>
+<blockquote>
+<p>几乎所有的ORM框架都支持延迟加载。它是一种在需要时从数据库加载实体的功能。假设User类具有对Role类的引用。从数据库获取用户时，不会填充Role属性。第一次读取Role属性时，它是从数据库加载的。因此，如果将此类实体返回到展现层，则会使其从数据库中检索其他实体。如果序列化工具读取实体，它会递归读取所有属性，并且可以再次检索整个数据库（如果实体之间存在合适的相关关系）。</p>
+</blockquote>
+<blockquote>
+<p>如果在展现层中使用实体，则可能会出现更多问题。最好不要在表示层中引用领域/业务层程序集。</p>
+</blockquote>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">AutoMapFrom(typeof(Company))</span>]</span><br><span class="line">public class CompanyListDto: EntityDto&lt;Guid&gt;//AuditedEntityDto&lt;Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Phone &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Address &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Order &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> IsActive &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> CreationUser &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">AutoMapTo(typeof(Company))</span>]</span><br><span class="line">public class CompanyEditDto: EntityDto&lt;Guid&gt;//AuditedEntityDto&lt;Guid&gt;</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">MaxLength(32)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">MaxLength(32)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Phone &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">MaxLength(128)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Address &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Order &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> IsActive &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span> IsDeleted &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="定义接口"><a href="#定义接口" class="headerlink" title="定义接口"></a>定义接口</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">ICompanyAppService</span>: <span class="title">IApplicationService</span></span><br><span class="line">&#123;</span><br><span class="line">    Task&lt;PagedResultDto&lt;CompanyListDto&gt;&gt; GetCompaniesAsync(PagedAndSortedResultRequestDto input); </span><br><span class="line"></span><br><span class="line">    <span class="function">Task&lt;CompanyListDto&gt; <span class="title">GetCompanyAsync</span>(<span class="params">EntityDto&lt;Guid&gt; input</span>)</span>; <span class="comment">//NullableIdDto&lt;Guid&gt; input</span></span><br><span class="line"></span><br><span class="line">    <span class="function">Task&lt;DeleteCompanyResult&gt; <span class="title">DeleteCompanyAsync</span>(<span class="params">EntityDto&lt;Guid&gt; input</span>)</span>; </span><br><span class="line"></span><br><span class="line">    <span class="function">Task&lt;SaveCompanyResult&gt; <span class="title">SaveCompanyAsync</span>(<span class="params">CompanyEditDto dto</span>)</span>; </span><br><span class="line"></span><br><span class="line">    <span class="comment">//Task&lt;SaveCompanyResult&gt; InsertCompanyAsync(CompanyEditDto dto); </span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//Task&lt;SaveCompanyResult&gt; UpdateCompanyAsync(CompanyEditDto dto); </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public class CompanyAppService: AbpLearningDemoAppServiceBase, ICompanyAppService</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> IRepository&lt;Company&gt; _companyRepository;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CompanyAppService</span>(<span class="params">IRepository&lt;Company&gt; companyRepository</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _companyRepository = companyRepository;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">async</span> Task&lt;PagedResultDto&lt;CompanyListDto&gt;&gt; GetCompaniesAsync(PagedAndSortedResultRequestDto input)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> query = _companyRepository.GetAll();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> total = <span class="keyword">await</span> query.CountAsync();</span><br><span class="line">        List&lt;Company&gt; companies = <span class="keyword">await</span> .OrderBy(input=&gt;input.Sorting).PageBy(input).ToListAsync()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PagedResultDto&lt;CompanyListDto&gt;(total, companies.MapTo&lt;List&lt;CompanyListDto&gt;&gt;());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;CompanyListDto&gt; <span class="title">GetCompanyAsync</span>(<span class="params">EntityDto&lt;Guid&gt; input</span>)<span class="comment">//NullableIdDto&lt;Guid&gt; input</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;DeleteCompanyResult&gt; <span class="title">DeleteCompanyAsync</span>(<span class="params">EntityDto&lt;Guid&gt; input</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;SaveCompanyResult&gt; <span class="title">SaveCompanyAsync</span>(<span class="params">CompanyEditDto dto</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+        
+	<div id="comment">
+		<!-- 来必力City版安装代码 -->
+		<div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4MS82MDQ5">
+		<script type="text/javascript">
+		   (function(d, s) {
+		       var j, e = d.getElementsByTagName(s)[0];
+
+		       if (typeof LivereTower === 'function') { return; }
+
+		       j = d.createElement(s);
+		       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+		       j.async = true;
+
+		       e.parentNode.insertBefore(j, e);
+		   })(document, 'script');
+		</script>
+		<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+		</div>
+		<!-- City版安装代码已完成 -->
+	</div>
+
+
+
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+<!-- Table of Contents -->
+
+  <aside id="toc-sidebar">
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABP官方文档结构"><span class="nav-number">1.</span> <span class="nav-text">ABP官方文档结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ABP文档"><span class="nav-number">1.1.</span> <span class="nav-text">ABP文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Module-Zero文档"><span class="nav-number">1.2.</span> <span class="nav-text">Module Zero文档</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#样例"><span class="nav-number">2.</span> <span class="nav-text">样例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多层架构"><span class="nav-number">3.</span> <span class="nav-text">多层架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ABP项目生启动模板"><span class="nav-number">4.</span> <span class="nav-text">ABP项目生启动模板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目结构"><span class="nav-number">5.</span> <span class="nav-text">项目结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单个实体CURD"><span class="nav-number">6.</span> <span class="nav-text">单个实体CURD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实体基类-接口"><span class="nav-number">6.1.</span> <span class="nav-text">实体基类 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用基类-接口"><span class="nav-number">6.1.1.</span> <span class="nav-text">常用基类 接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成数据库表"><span class="nav-number">6.2.</span> <span class="nav-text">生成数据库表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务层方法"><span class="nav-number">7.</span> <span class="nav-text">服务层方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义数据传输实体"><span class="nav-number">7.1.</span> <span class="nav-text">定义数据传输实体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义接口"><span class="nav-number">7.2.</span> <span class="nav-text">定义接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方法"><span class="nav-number">7.3.</span> <span class="nav-text">实现方法</span></a></li></ol></li></ol>
+    
+    </div>
+  </aside>
+
+</section>
+        
+      </div>
+      
+      <footer id="footer">
+  
+
+  <div class="container">
+      	<div class="row">
+	      <p> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/iTimeTraveler/hexo-theme-hiker" target="_blank">Hexo-theme-hiker</a> </p>
+	      <p id="copyRightEn">Copyright &copy; 2013 - 2018 Planeswalker All Rights Reserved.</p>
+	      
+	      
+    		<p class="busuanzi_uv">
+				访客数 : <span id="busuanzi_value_site_uv"></span> |  
+				访问量 : <span id="busuanzi_value_site_pv"></span>
+		    </p>
+  		   
+		</div>
+
+		
+  </div>
+</footer>
+
+
+<!-- min height -->
+
+<script>
+    var wrapdiv = document.getElementById("wrap");
+    var contentdiv = document.getElementById("content");
+    var allheader = document.getElementById("allheader");
+
+    wrapdiv.style.minHeight = document.body.offsetHeight + "px";
+    if (allheader != null) {
+      contentdiv.style.minHeight = document.body.offsetHeight - allheader.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    } else {
+      contentdiv.style.minHeight = document.body.offsetHeight - document.getElementById("footer").offsetHeight + "px";
+    }
+</script>
+    </div>
+    <!-- <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/categories" class="mobile-nav-link">Categories</a>
+  
+    <a href="/tags" class="mobile-nav-link">Tags</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav> -->
+    
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/scripts.js"></script>
+
+
+  <script src="/js/home.js"></script>
+
+
+
+  <script src="/js/dialog.js"></script>
+
+
+
+
+
+
+
+
+	<div style="display: none;">
+    <script src="https://s95.cnzz.com/z_stat.php?id=1260716016&web_id=1260716016" language="JavaScript"></script>
+  </div>
+
+
+
+	<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">设置</h2>
+      </div>
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+
+
+      <div class="modal-body">
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" onclick="javascript:setFontSize();" aria-expanded="true" aria-controls="collapseOne">
+              正文字号大小
+            </a>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            您已调整页面字体大小
+          </div>
+        </div>
+      
+
+
+          <div style="margin:6px;">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" onclick="javascript:setBackground();" aria-expanded="true" aria-controls="collapseTwo">
+              夜间护眼模式
+            </a>
+        </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            夜间模式已经开启，再次单击按钮即可关闭 
+          </div>
+        </div>
+
+        <div>
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关 于&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        </div>
+         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Planeswalker
+          </div>
+          <div class="panel-body">
+            Copyright © 2018 Sing-T All Rights Reserved.
+          </div>
+        </div>
+      </div>
+
+
+      <hr style="margin-top:0px; margin-bottom:0px; width:80%; border-top: 1px solid #000;">
+      <hr style="margin-top:2px; margin-bottom:0px; width:80%; border-top: 3px solid #000;">
+      <div class="modal-footer">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <a id="rocket" href="#top" class=""></a>
+  <script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+  
+    <a id="menu-switch"><i class="fa fa-bars fa-lg"></i></a>
+  
+</body>
+</html>
